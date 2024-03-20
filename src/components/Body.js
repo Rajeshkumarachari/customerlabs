@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
 
 const Body = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const segmentOptions = [
     {
       Label: "First Name",
@@ -33,7 +33,34 @@ const Body = () => {
       Value: "state",
     },
   ];
-  const [availableOption,setAvailableOption]=useState(segmentOptions)
+  const [segmentName, setSegmentName] = useState("");
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [newOption, setNewOption] = useState("");
+  const [availableOptions, setAvailableOptions] = useState(segmentOptions);
+
+  const handleSegmentSave = () => {
+    const segmentData = {
+      segmentName,
+      selectedOptions,
+    };
+    console.log("Segment Data:", segmentData);
+    setSegmentName("");
+    setSelectedOptions([]);
+    setAvailableOptions(segmentOptions);
+  };
+  const handleNewOptionAdd = () => {
+    if (newOption) {
+      setSelectedOptions([...selectedOptions, newOption]);
+      setAvailableOptions(
+        availableOptions.filter((option) => option.Value !== newOption)
+      );
+      setNewOption("");
+    }
+  };
+  const handleOptionChange = (e) => {
+    setNewOption(e.target.value);
+  };
+
   return (
     <div className=" flex h-screen  ">
       <div className="py-10 px-20 bg-slate-200 h-full w-1/2">
@@ -58,6 +85,8 @@ const Body = () => {
                 type="text"
                 placeholder=" Name of the segment"
                 className=" border px-3 py-2 w-full "
+                value={segmentName}
+                onChange={(e) => setSegmentName(e.target.value)}
               />
             </form>
             <p className=" my-3">
@@ -65,18 +94,46 @@ const Body = () => {
               query
             </p>
             <div className="">
-              <button className=" text-teal-800 font-semibold underline">
-                {" "}
-                + Add schema to segment
-              </button>
+              <div className="">
+                <select
+                  className=" border px-2 py-2"
+                  value={newOption}
+                  onChange={handleOptionChange}
+                >
+                  <option value="">Add schema to segment</option>
+                  {availableOptions.map((option) => (
+                    <option key={option.Value} value={option.Value}>
+                      {option.Label}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={handleNewOptionAdd}
+                  className=" ml-4 text-teal-800 font-semibold underline"
+                >
+                  + Add schema to segment
+                </button>
+              </div>
+
+              {selectedOptions.map((option, index) => (
+                <select
+                  className=" border my-5 p-2 mx-1"
+                  key={index}
+                  value={option}
+                >
+                  <option value={option}>{option}</option>
+                </select>
+              ))}
             </div>
 
-            <div className="  absolute bottom-[-360px] left-0 flex space-x-5 w-full bg-gray-100 ">
-              <button className=" bg-teal-600 rounded-md text-white px-2 py-2">
+            <div className="absolute bottom-[-200px] left-0 flex space-x-5 w-full bg-gray-100 ">
+              <button
+                onClick={handleSegmentSave}
+                className=" bg-teal-600 rounded-md text-white px-2 py-2"
+              >
                 Save new Segment
               </button>
               <button className=" px-2 py-2 bg-white rounded-md text-red-500 font-medium">
-                {" "}
                 Cancel
               </button>
             </div>
