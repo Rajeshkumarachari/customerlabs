@@ -112,7 +112,7 @@ const Body = () => {
                   + Add schema to segment
                 </button>
               </div>{" "}
-              <div className="  my-3   border-2 border-blue-700 ">
+              <div className="  my-3   border-2 border-blue-700  h-32">
                 {selectedOptions.map((option, index) => (
                   <select
                     className=" border my-5 p-2 mx-1"
