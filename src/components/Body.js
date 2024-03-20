@@ -39,11 +39,9 @@ const Body = () => {
   const [availableOptions, setAvailableOptions] = useState(segmentOptions);
 
   const handleSegmentSave = () => {
-    const segmentData = {
-      segmentName,
-      selectedOptions,
-    };
-    console.log("Segment Data:", segmentData);
+    console.log(segmentName + ":" + segmentName);
+    //console.log(selectedOptions);
+
     setSegmentName("");
     setSelectedOptions([]);
     setAvailableOptions(segmentOptions);
@@ -59,6 +57,7 @@ const Body = () => {
   };
   const handleOptionChange = (e) => {
     setNewOption(e.target.value);
+    setSegmentName(e.target.value);
   };
 
   return (
@@ -85,8 +84,7 @@ const Body = () => {
                 type="text"
                 placeholder=" Name of the segment"
                 className=" border px-3 py-2 w-full "
-                value={segmentName}
-                onChange={(e) => setSegmentName(e.target.value)}
+                //value={segmentName}
               />
             </form>
             <p className=" my-3">
@@ -102,7 +100,7 @@ const Body = () => {
                 >
                   <option value="">Add schema to segment</option>
                   {availableOptions.map((option) => (
-                    <option key={option.Value} value={option.Value}>
+                    <option key={option.Value} value={option.Label}>
                       {option.Label}
                     </option>
                   ))}
